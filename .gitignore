@@ -3,3 +3,5 @@
 
 # Pick a template from here: https://github.com/github/gitignore
 # and popular this file with one.
+
+megalinter-reports/
