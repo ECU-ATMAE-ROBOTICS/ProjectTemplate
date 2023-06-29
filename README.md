@@ -1,2 +1,7 @@
+<!-- This program is distributed under the terms of the GNU General Public License.
+<!-- For more details, see the LICENSE file in the root of the repository.
+<!-->
+
 # ProjectTemplate
-Template Repository when starting a repository for a new project
+
+Fill in a description for this.
