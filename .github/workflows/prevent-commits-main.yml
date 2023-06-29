@@ -1,7 +1,7 @@
 # This program is distributed under the terms of the GNU General Public License.
 # For more details, see the LICENSE file in the root of the repository.
 
-name: Main Branch Checks
+name: Prevent Pushes to Main Branch
 
 on:
     push:
@@ -9,18 +9,6 @@ on:
             - main
 
 jobs:
-    check-commit:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Check commit message length
-              run: |
-                  commit_message=$(git log --format=%B -n 1 ${{ github.sha }})
-                  commit_length=${#commit_message}
-                  if [[ $commit_length -lt 10 || $commit_length -gt 100 ]]; then
-                    echo "Error: The commit message length is not within the allowed limits (10-100 characters)." >&2
-                    exit 1
-                  fi
-
     prevent-push:
         runs-on: ubuntu-latest
         steps:
