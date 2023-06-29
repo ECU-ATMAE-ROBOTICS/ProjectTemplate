@@ -1,0 +1,21 @@
+# This program is distributed under the terms of the GNU General Public License.
+# For more details, see the LICENSE file in the root of the repository.
+
+name: Prevent commits on main branch
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    prevent_commits:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Check main branch
+              run: |
+                  if [ "$GITHUB_REF" = "refs/heads/main" ]; then
+                    echo "Error: Commits on the main branch are not allowed."
+                    exit 1
+                  fi
