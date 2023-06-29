@@ -1,7 +1,7 @@
 # This program is distributed under the terms of the GNU General Public License.
 # For more details, see the LICENSE file in the root of the repository.
 
-name: Prevent commits on main branch
+name: Main Branch Checks
 
 on:
     push:
@@ -9,13 +9,24 @@ on:
             - main
 
 jobs:
-    prevent_commits:
+    check-commit:
         runs-on: ubuntu-latest
-
         steps:
-            - name: Check main branch
+            - name: Check commit message length
               run: |
-                  if [ "$GITHUB_REF" = "refs/heads/main" ]; then
-                    echo "Error: Commits on the main branch are not allowed."
+                  commit_message=$(git log --format=%B -n 1 ${{ github.sha }})
+                  commit_length=${#commit_message}
+                  if [[ $commit_length -lt 10 || $commit_length -gt 100 ]]; then
+                    echo "Error: The commit message length is not within the allowed limits (10-100 characters)." >&2
+                    exit 1
+                  fi
+
+    prevent-push:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check push branch
+              run: |
+                  if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+                    echo "Error: Pushes to the main branch are not allowed." >&2
                     exit 1
                   fi

@@ -1,4 +1,7 @@
-name: Prevent pushes from main branch
+# This program is distributed under the terms of the GNU General Public License.
+# For more details, see the LICENSE file in the root of the repository.
+
+name: Non-Main Branch Push Checks
 
 on:
     push:
@@ -6,13 +9,12 @@ on:
             - main
 
 jobs:
-    prevent_pushes:
+    prevent-push:
         runs-on: ubuntu-latest
-
         steps:
-            - name: Check pushed branch
+            - name: Check push branch
               run: |
-                  if [ "$GITHUB_REF" = "refs/heads/main" ]; then
-                    echo "Error: Pushes from the main branch are not allowed."
+                  if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+                    echo "Error: Pushes from the main branch are not allowed." >&2
                     exit 1
                   fi
